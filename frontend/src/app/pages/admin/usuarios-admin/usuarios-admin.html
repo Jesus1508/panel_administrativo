@@ -1,0 +1,84 @@
+<div>
+  <h1 class="text-2xl font-serif font-semibold text-slate-800 mb-6">Usuarios administradores</h1>
+
+  <form (ngSubmit)="crear()" class="bg-white border border-slate-200 rounded-lg p-5 mb-6 flex flex-wrap gap-3 items-end">
+    <div class="flex-1 min-w-[160px]">
+      <label class="block text-xs font-medium text-slate-500 mb-1">Nombre</label>
+      <input
+        [(ngModel)]="nombre"
+        name="nombre"
+        required
+        class="w-full p-2 border border-slate-300 rounded text-sm focus:outline-brand"
+      />
+    </div>
+    <div class="flex-1 min-w-[180px]">
+      <label class="block text-xs font-medium text-slate-500 mb-1">Email</label>
+      <input
+        [(ngModel)]="email"
+        name="email"
+        type="email"
+        required
+        class="w-full p-2 border border-slate-300 rounded text-sm focus:outline-brand"
+      />
+    </div>
+    <div class="flex-1 min-w-[160px]">
+      <label class="block text-xs font-medium text-slate-500 mb-1">Contraseña</label>
+      <input
+        [(ngModel)]="password"
+        name="password"
+        type="password"
+        required
+        minlength="6"
+        placeholder="Mínimo 6 caracteres"
+        class="w-full p-2 border border-slate-300 rounded text-sm focus:outline-brand"
+      />
+    </div>
+    <button
+      type="submit"
+      [disabled]="guardando()"
+      class="bg-brand hover:bg-brand-dark disabled:opacity-60 text-white text-sm font-semibold px-4 py-2 rounded transition"
+    >
+      Crear
+    </button>
+  </form>
+
+  @if (error()) {
+    <p class="text-sm text-red-600 mb-4">{{ error() }}</p>
+  }
+
+  @if (cargando()) {
+    <p class="text-sm text-slate-400">Cargando…</p>
+  } @else {
+    <div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+      <table class="w-full text-sm text-left">
+        <thead class="bg-slate-50 text-xs uppercase text-slate-500">
+          <tr>
+            <th class="px-4 py-3">Nombre</th>
+            <th class="px-4 py-3">Email</th>
+            <th class="px-4 py-3 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of usuarios(); track usuario.id) {
+            <tr class="border-t border-slate-100">
+              <td class="px-4 py-3 font-medium text-slate-800">
+                {{ usuario.nombre }}
+                @if (usuario.id === auth.usuario()?.id) {
+                  <span class="ml-2 text-xs font-medium text-brand bg-brand/10 px-2 py-0.5 rounded-full">Tú</span>
+                }
+              </td>
+              <td class="px-4 py-3 text-slate-500">{{ usuario.email }}</td>
+              <td class="px-4 py-3">
+                <div class="flex justify-end">
+                  @if (usuario.id !== auth.usuario()?.id) {
+                    <button (click)="eliminar(usuario)" class="text-slate-500 hover:text-red-600">Eliminar</button>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

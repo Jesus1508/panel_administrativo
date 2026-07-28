@@ -1,0 +1,16 @@
+<div class="max-w-3xl mx-auto px-4 py-12">
+  @if (cargando()) {
+    <p class="text-sm text-slate-400">Cargando…</p>
+  } @else if (error() || !noticia()) {
+    <p class="text-sm text-slate-400">Noticia no encontrada.</p>
+  } @else {
+    @if (noticia()!.imagenUrl) {
+      <img [src]="noticia()!.imagenUrl" [alt]="noticia()!.titulo" class="w-full max-h-80 object-cover rounded-lg mb-6" />
+    }
+    <h1 class="text-2xl font-bold text-slate-800 mb-2">{{ noticia()!.titulo }}</h1>
+    @if (noticia()!.publicadaEn) {
+      <p class="text-xs text-slate-400 mb-6">{{ noticia()!.publicadaEn | date: 'longDate' }}</p>
+    }
+    <p class="whitespace-pre-line text-slate-600 leading-relaxed">{{ noticia()!.contenido }}</p>
+  }
+</div>

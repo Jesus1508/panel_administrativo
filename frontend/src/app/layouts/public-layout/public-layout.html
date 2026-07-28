@@ -1,0 +1,47 @@
+<div class="min-h-screen flex flex-col bg-slate-50">
+  <header class="bg-white border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a routerLink="/" class="text-lg font-bold text-brand">Instituto Modelo</a>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <a routerLink="/" routerLinkActive="text-brand" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+        @for (pagina of paginas(); track pagina.slug) {
+          <a [routerLink]="['/pagina', pagina.slug]" routerLinkActive="text-brand">{{ pagina.titulo }}</a>
+        }
+        <a routerLink="/noticias" routerLinkActive="text-brand">Noticias</a>
+        <a routerLink="/recursos" routerLinkActive="text-brand">Recursos</a>
+        <a routerLink="/contacto" routerLinkActive="text-brand">Contacto</a>
+        <a routerLink="/admin/login" class="text-slate-400 hover:text-brand">Acceso administrativo</a>
+      </nav>
+
+      <button
+        (click)="menuAbierto.set(!menuAbierto())"
+        class="md:hidden text-slate-500"
+        aria-label="Abrir menú"
+      >
+        ☰
+      </button>
+    </div>
+
+    @if (menuAbierto()) {
+      <nav class="md:hidden flex flex-col gap-2 px-4 pb-4 text-sm font-medium text-slate-600">
+        <a routerLink="/" (click)="menuAbierto.set(false)">Inicio</a>
+        @for (pagina of paginas(); track pagina.slug) {
+          <a [routerLink]="['/pagina', pagina.slug]" (click)="menuAbierto.set(false)">{{ pagina.titulo }}</a>
+        }
+        <a routerLink="/noticias" (click)="menuAbierto.set(false)">Noticias</a>
+        <a routerLink="/recursos" (click)="menuAbierto.set(false)">Recursos</a>
+        <a routerLink="/contacto" (click)="menuAbierto.set(false)">Contacto</a>
+        <a routerLink="/admin/login" (click)="menuAbierto.set(false)">Acceso administrativo</a>
+      </nav>
+    }
+  </header>
+
+  <main class="flex-1">
+    <router-outlet />
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400">
+    © 2026 Instituto Modelo — Panel administrativo institucional
+  </footer>
+</div>

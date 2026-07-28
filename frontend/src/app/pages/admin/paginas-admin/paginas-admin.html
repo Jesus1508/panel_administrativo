@@ -1,0 +1,93 @@
+<div>
+  <h1 class="text-2xl font-serif font-semibold text-slate-800 mb-6">Páginas institucionales</h1>
+
+  <form (ngSubmit)="guardar()" class="bg-white border border-slate-200 rounded-lg p-5 mb-6 space-y-3">
+    <div class="grid md:grid-cols-2 gap-3">
+      <div>
+        <label class="block text-xs font-medium text-slate-500 mb-1">Título</label>
+        <input
+          [(ngModel)]="titulo"
+          name="titulo"
+          required
+          class="w-full p-2 border border-slate-300 rounded text-sm focus:outline-brand"
+        />
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-slate-500 mb-1">Orden</label>
+        <input
+          [(ngModel)]="orden"
+          name="orden"
+          type="number"
+          class="w-full p-2 border border-slate-300 rounded text-sm focus:outline-brand"
+        />
+      </div>
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-slate-500 mb-1">Contenido</label>
+      <textarea
+        [(ngModel)]="contenido"
+        name="contenido"
+        required
+        rows="5"
+        class="w-full p-2 border border-slate-300 rounded text-sm focus:outline-brand"
+      ></textarea>
+    </div>
+    <label class="flex items-center gap-2 text-sm text-slate-700">
+      <input [(ngModel)]="publicada" name="publicada" type="checkbox" />
+      Publicada
+    </label>
+    <div class="flex gap-2">
+      <button type="submit" class="bg-brand hover:bg-brand-dark text-white text-sm font-semibold px-4 py-2 rounded transition">
+        {{ editando() ? 'Guardar cambios' : 'Crear página' }}
+      </button>
+      @if (editando()) {
+        <button
+          type="button"
+          (click)="cancelarEdicion()"
+          class="text-slate-500 hover:text-slate-800 text-sm px-3 py-2"
+        >
+          Cancelar
+        </button>
+      }
+    </div>
+  </form>
+
+  @if (cargando()) {
+    <p class="text-sm text-slate-400">Cargando…</p>
+  } @else {
+    <div class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+      <table class="w-full text-sm text-left">
+        <thead class="bg-slate-50 text-xs uppercase text-slate-500">
+          <tr>
+            <th class="px-4 py-3">Título</th>
+            <th class="px-4 py-3">Orden</th>
+            <th class="px-4 py-3">Estado</th>
+            <th class="px-4 py-3 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pagina of paginas(); track pagina.id) {
+            <tr class="border-t border-slate-100">
+              <td class="px-4 py-3 font-medium text-slate-800">{{ pagina.titulo }}</td>
+              <td class="px-4 py-3 text-slate-500">{{ pagina.orden }}</td>
+              <td class="px-4 py-3">
+                <span
+                  class="text-xs font-medium px-2 py-0.5 rounded-full"
+                  [class]="pagina.publicada ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'"
+                >
+                  {{ pagina.publicada ? 'Publicada' : 'Borrador' }}
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <div class="flex justify-end gap-3">
+                  <button (click)="editar(pagina)" class="text-slate-500 hover:text-brand">Editar</button>
+                  <button (click)="eliminar(pagina)" class="text-slate-500 hover:text-red-600">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

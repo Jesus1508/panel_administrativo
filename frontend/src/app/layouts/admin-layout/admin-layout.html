@@ -1,0 +1,49 @@
+<div class="min-h-screen flex bg-slate-50">
+  <aside class="w-56 bg-slate-800 text-slate-300 flex flex-col">
+    <div class="p-5 text-white font-bold border-b border-slate-700">Panel Administrativo</div>
+    <nav class="flex-1 p-3 space-y-1 text-sm">
+      <a
+        routerLink="/admin/paginas"
+        routerLinkActive="bg-slate-700 text-white"
+        class="block px-3 py-2 rounded hover:bg-slate-700 hover:text-white transition-colors"
+        >Páginas</a
+      >
+      <a
+        routerLink="/admin/noticias"
+        routerLinkActive="bg-slate-700 text-white"
+        class="block px-3 py-2 rounded hover:bg-slate-700 hover:text-white transition-colors"
+        >Noticias</a
+      >
+      <a
+        routerLink="/admin/recursos"
+        routerLinkActive="bg-slate-700 text-white"
+        class="block px-3 py-2 rounded hover:bg-slate-700 hover:text-white transition-colors"
+        >Recursos</a
+      >
+      <a
+        routerLink="/admin/usuarios"
+        routerLinkActive="bg-slate-700 text-white"
+        class="block px-3 py-2 rounded hover:bg-slate-700 hover:text-white transition-colors"
+        >Usuarios</a
+      >
+      <a
+        routerLink="/"
+        class="block px-3 py-2 rounded hover:bg-slate-700 hover:text-white transition-colors"
+        target="_blank"
+        >Ver sitio</a
+      >
+    </nav>
+    <div class="p-3 border-t border-slate-700">
+      <p class="text-xs text-slate-400 px-3 mb-2">{{ auth.usuario()?.email }}</p>
+      <button
+        (click)="cerrarSesion()"
+        class="w-full text-left px-3 py-2 rounded hover:bg-slate-700 hover:text-white text-sm transition-colors"
+      >
+        Cerrar sesión
+      </button>
+    </div>
+  </aside>
+  <main class="flex-1 p-8">
+    <router-outlet />
+  </main>
+</div>
